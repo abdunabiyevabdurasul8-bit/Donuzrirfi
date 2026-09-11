@@ -46,12 +46,12 @@ MARKUP_PERCENT = float(
 
 CARD_NUMBER = os.getenv(
     "CARD_NUMBER",
-    "8600 XXXX XXXX XXXX"
+    "9860 6067 6078 9275"
 )
 
 CARD_OWNER = os.getenv(
     "CARD_OWNER",
-    "Ism Familiya"
+    "A.Abdurasul "
 )
 
 PORT = int(os.getenv("PORT", "10000"))
