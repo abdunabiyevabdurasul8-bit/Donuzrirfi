@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: paystars-bot
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: python main.py
+    healthCheckPath: /
+    envVars:
+      - key: BOT_TOKEN
+        sync: false
+      - key: ADMIN_ID
+        sync: false
+      - key: PAYSTARS_API_KEY
+        sync: false
+      - key: PAYSTARS_API
+        value: https://paystars.uz/api/v1
+      - key: MARKUP_PERCENT
+        value: "4.5"
+      - key: CARD_NUMBER
+        sync: false
+      - key: CARD_OWNER
+        sync: false
