@@ -1145,7 +1145,6 @@ async def confirm(u, c):
             f"Balans: {current_balance:,.0f} so‘m"
         )
 
-    # Balansni vaqtincha yechamiz
     change_balance(
         uid,
         -price
@@ -1222,10 +1221,6 @@ async def confirm(u, c):
             now()
         ))
 
-        # =========================================
-        # MUVAFFAQIYATLI BUYURTMA
-        # =========================================
-
         if successful_status(raw_status):
 
             success_text = (
@@ -1283,7 +1278,6 @@ async def confirm(u, c):
             "purchase"
         )
 
-        # Xatolik bo‘lsa pulni qaytaramiz
         change_balance(
             uid,
             price
@@ -1832,10 +1826,6 @@ async def admin_amount(u, c):
         .replace(",", "")
     )
 
-    # =====================================
-    # PAYMENT APPROVE
-    # =====================================
-
     if c.user_data.get(
         "payment_approve"
     ):
@@ -1982,10 +1972,6 @@ async def admin_amount(u, c):
         )
 
         return True
-
-    # =====================================
-    # ADMIN BALANCE + / -
-    # =====================================
 
     if (
         c.user_data.get("add_amount")
@@ -2348,6 +2334,11 @@ async def route(u, c):
         if t == "💳 To‘lovlar":
             return await admin_payments(u, c)
 
+        # =================================================
+        # FAQAT SHU QISM TUZATILDI
+        # PAYSTARS API BALANSI
+        # =================================================
+
         if t == "💰 PayStars balansi":
 
             try:
@@ -2356,14 +2347,24 @@ async def route(u, c):
                     account
                 )
 
+                balance = a.get(
+                    "user",
+                    {}
+                ).get(
+                    "balance",
+                    0
+                )
+
                 return await u.message.reply_text(
-                    str(a)
+                    f"💰 <b>PayStars API balansi</b>\n\n"
+                    f"💵 Balans: <b>{balance:,.0f} so‘m</b>",
+                    parse_mode="HTML"
                 )
 
             except:
 
                 return await u.message.reply_text(
-                    "❌ PayStars API xatosi."
+                    "❌ PayStars balansini olishda xatolik."
                 )
 
         if t == "🔄 Katalog":
@@ -2831,18 +2832,18 @@ def main():
             "ADMIN_ID"
         )
 
-    if missing:
-
-        raise RuntimeError(
-            "Yetishmayapti: "
-            + ", ".join(missing)
-        )
-
     if not RENDER_EXTERNAL_URL:
 
         raise RuntimeError(
             "RENDER_EXTERNAL_URL topilmadi. "
             "Render Web Service kerak."
+        )
+
+    if missing:
+
+        raise RuntimeError(
+            "Yetishmayapti: "
+            + ", ".join(missing)
         )
 
     app = (
